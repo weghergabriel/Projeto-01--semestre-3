@@ -1,0 +1,118 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        FipeApiClient fipe = new FipeApiClient();
+        Scanner scanner = new Scanner(System.in);  // scanner no escopo da main
+        int op;
+
+        do {
+            System.out.println("Escolha alguma das seguintes opcoes:");
+            System.out.println("1-Vendas");
+            System.out.println("2-Veiculos cadastrados");
+            System.out.println("3-Cadastro de veiculos");
+            System.out.println("4-Sair");
+            op = scanner.nextInt();  // Aqui você espera a entrada
+
+            switch (op) {
+                case 1:
+                    // Lógica para Vendas
+                    break;
+                case 2:
+                    // Lógica para Carros cadastrados
+                    break;
+                case 3:
+                    Cadastro_de_veiculos(scanner, fipe); // Passar o scanner e o objeto fipe para o método
+                    break;
+                case 4:
+                    System.out.println("Saindo...");
+                    break;
+                default:
+                    System.out.println("Opção inválida! Tente novamente.");
+            }
+
+        } while (op != 4);
+
+        scanner.close(); // Fechar o scanner no final da execução
+    }
+
+    public static void Cadastro_de_veiculos(Scanner scanner, FipeApiClient fipe) {
+        int typeV, IdMarca;
+        String Ano;
+
+        System.out.println("Você entrou na função de cadastro");
+        System.out.println("1-Cadastrar veiculos no catalogo de vendas");
+        System.out.println("2-Remover veiculos do catalogo de vendas");
+        System.out.println("3-Consultar marcas disponíveis por veiculo");
+        System.out.println("4-Consultar modelos por marca");
+        System.out.println("5-Voltar ao menu");
+        int op = scanner.nextInt();  // Aqui você usa o mesmo scanner passado como parâmetro
+        
+        switch (op) {
+            case 1:
+                // Lógica para cadastrar carro
+                break;
+            case 2:
+                // Lógica para remover carro
+                break;
+            case 3:
+                String tipoVeiculo;
+                System.out.println("Qual tipo de veiculo pretende procurar?");
+                System.out.println("1-Carros");
+                System.out.println("2-Motos");
+                System.out.println("3-Caminhões");
+                typeV = scanner.nextInt();  // Lendo a entrada para tipo de veículo
+
+                if (typeV == 1) {
+                    tipoVeiculo = "carros";
+                } else if (typeV == 2) {
+                    tipoVeiculo = "motos";
+                } else if (typeV == 3) {
+                    tipoVeiculo = "caminhoes";
+                } else {
+                    System.out.println("Tipo de veiculo inválido!");
+                    System.out.println("Voltando ao menu");
+                    return;
+                }
+
+                // Adicionando feedback antes da requisição
+                System.out.println("Buscando marcas para " + tipoVeiculo + "...");
+                
+                // Chamando o método para mostrar marcas
+                fipe.MostrarMarcas(tipoVeiculo); 
+                break;
+            case 4:
+                System.out.println("Qual tipo de veiculo pretende procurar?");
+                System.out.println("1-Carros");
+                System.out.println("2-Motos");
+                System.out.println("3-Caminhões");
+                typeV = scanner.nextInt();  // Lendo a entrada para tipo de veículo
+
+                if (typeV == 1) {
+                    tipoVeiculo = "carros";
+                } else if (typeV == 2) {
+                    tipoVeiculo = "motos";
+                } else if (typeV == 3) {
+                    tipoVeiculo = "caminhoes";
+                } else {
+                    System.out.println("Tipo de veiculo inválido!");
+                    System.out.println("Voltando ao menu");
+                    return;
+                }
+                System.out.println("Digite o Id da marca desejada:");
+                IdMarca = scanner.nextInt();
+                scanner.nextLine();
+                
+                fipe.ModelosPorMarca(tipoVeiculo, IdMarca);
+
+                break;
+            case 5:
+                System.out.println("Voltando ao menu principal...");
+                return; // Sai da função Cadastro_de_veiculos e volta ao menu principal
+            default:
+                System.out.println("Opção inválida! Tente novamente.");
+                break;
+        }
+    }
+}
