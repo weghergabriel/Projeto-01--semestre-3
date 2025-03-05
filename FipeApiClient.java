@@ -12,9 +12,6 @@ public class FipeApiClient {
             System.out.println("Tentando acessar a URL: " + urlMarcas);  // Log para depuração
             String resposta = fazerRequisicao(urlMarcas);
     
-            // Imprimir a resposta completa para depuração
-            System.out.println("Resposta completa da API:\n" + resposta);
-    
             // Remover os colchetes externos e processar o conteúdo
             resposta = resposta.replace("[", "").replace("]", "");
     

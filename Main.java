@@ -1,10 +1,12 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) {
         FipeApiClient fipe = new FipeApiClient();
         Scanner scanner = new Scanner(System.in);  // scanner no escopo da main
+        ArrayList <Veiculo> listaVeiculos = new ArrayList<>();
         int op;
 
         do {
@@ -41,6 +43,7 @@ public class Main {
         int typeV, IdMarca;
         String Ano;
         String AnoECombs;
+        String tipoVeiculo;
 
         System.out.println("Você entrou na função de cadastro");
         System.out.println("1-Cadastrar veiculos no catalogo de vendas");
@@ -52,13 +55,29 @@ public class Main {
         
         switch (op) {
             case 1:
-                // Lógica para cadastrar carro
+            System.out.println("Qual tipo de veiculo pretende cadastrar?");
+            System.out.println("1-Carros");
+            System.out.println("2-Motos");
+            System.out.println("3-Caminhões");
+            typeV = scanner.nextInt();  // Lendo a entrada para tipo de veículo
+
+            if (typeV == 1) {
+                tipoVeiculo = "cars";
+            } else if (typeV == 2) {
+                tipoVeiculo = "motorcycles";
+            } else if (typeV == 3) {
+                tipoVeiculo = "trucks";
+            } else {
+                System.out.println("Tipo de veiculo inválido!");
+                System.out.println("Voltando ao menu");
+                return;
+            }
+
                 break;
             case 2:
                 // Lógica para remover carro
                 break;
             case 3:
-                String tipoVeiculo;
                 System.out.println("Qual tipo de veiculo pretende procurar?");
                 System.out.println("1-Carros");
                 System.out.println("2-Motos");
