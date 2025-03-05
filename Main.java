@@ -40,12 +40,13 @@ public class Main {
     public static void Cadastro_de_veiculos(Scanner scanner, FipeApiClient fipe) {
         int typeV, IdMarca;
         String Ano;
+        String AnoECombs;
 
         System.out.println("Você entrou na função de cadastro");
         System.out.println("1-Cadastrar veiculos no catalogo de vendas");
         System.out.println("2-Remover veiculos do catalogo de vendas");
         System.out.println("3-Consultar marcas disponíveis por veiculo");
-        System.out.println("4-Consultar modelos por marca");
+        System.out.println("4-Consultar modelos por marca e ano");
         System.out.println("5-Voltar ao menu");
         int op = scanner.nextInt();  // Aqui você usa o mesmo scanner passado como parâmetro
         
@@ -65,11 +66,11 @@ public class Main {
                 typeV = scanner.nextInt();  // Lendo a entrada para tipo de veículo
 
                 if (typeV == 1) {
-                    tipoVeiculo = "carros";
+                    tipoVeiculo = "cars";
                 } else if (typeV == 2) {
-                    tipoVeiculo = "motos";
+                    tipoVeiculo = "motorcycles";
                 } else if (typeV == 3) {
-                    tipoVeiculo = "caminhoes";
+                    tipoVeiculo = "trucks";
                 } else {
                     System.out.println("Tipo de veiculo inválido!");
                     System.out.println("Voltando ao menu");
@@ -90,11 +91,11 @@ public class Main {
                 typeV = scanner.nextInt();  // Lendo a entrada para tipo de veículo
 
                 if (typeV == 1) {
-                    tipoVeiculo = "carros";
+                    tipoVeiculo = "cars";
                 } else if (typeV == 2) {
-                    tipoVeiculo = "motos";
+                    tipoVeiculo = "motorcycles";
                 } else if (typeV == 3) {
-                    tipoVeiculo = "caminhoes";
+                    tipoVeiculo = "trucks";
                 } else {
                     System.out.println("Tipo de veiculo inválido!");
                     System.out.println("Voltando ao menu");
@@ -103,8 +104,11 @@ public class Main {
                 System.out.println("Digite o Id da marca desejada:");
                 IdMarca = scanner.nextInt();
                 scanner.nextLine();
+                System.out.println("Digite o ano desejado e logo após o tipo de combustivel");
+                System.out.println("Ex:'-1'Para gasolina/'-2'Para alcool/'-3'Para diesel");
+                AnoECombs = scanner.nextLine();
                 
-                fipe.ModelosPorMarca(tipoVeiculo, IdMarca);
+                fipe.ModelosPorMarca(tipoVeiculo, IdMarca, AnoECombs);
 
                 break;
             case 5:
