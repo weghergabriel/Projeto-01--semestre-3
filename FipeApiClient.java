@@ -107,4 +107,44 @@ public class FipeApiClient {
         reader.close();
         return resposta.toString();
     }
+
+    // Método para adicionar um veículo ao catálogo
+    public Veiculo adicionarVeiculo(String tipoVeiculo, int idMarca, int idModelo, String anoModelo) {
+        try {
+            String urlVeiculo = "https://parallelum.com.br/api/v2/" + tipoVeiculo + "/brands/" + idMarca + "/models/" + idModelo + "/years/" + anoModelo;
+            System.out.println("Buscando veículo na FIPE: " + urlVeiculo);
+
+            String respostaJson = fazerRequisicao(urlVeiculo);
+
+            // Extraindo os dados manualmente
+            String preco = extrairValor(respostaJson, "\"Valor\":\"", "\"");
+            String marca = extrairValor(respostaJson, "\"Marca\":\"", "\"");
+            String modelo = extrairValor(respostaJson, "\"Modelo\":\"", "\"");
+            int ano = Integer.parseInt(extrairValor(respostaJson, "\"AnoModelo\":", ","));
+            String combustivel = extrairValor(respostaJson, "\"Combustivel\":\"", "\"");
+            String codigoFipe = extrairValor(respostaJson, "\"CodigoFipe\":\"", "\"");
+            String mesReferencia = extrairValor(respostaJson, "\"MesReferencia\":\"", "\"");
+            String acronCombustivel = extrairValor(respostaJson, "\"SiglaCombustivel\":\"", "\"");
+
+            // Criando o objeto Veiculo
+            Veiculo novoVeiculo = new Carro(1, preco, marca, modelo, ano, combustivel, codigoFipe, mesReferencia, acronCombustivel);
+            System.out.println("Veículo adicionado: " + modelo + " - " + ano);
+
+            return novoVeiculo; // Retorna o veículo para ser adicionado à lista
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar veículo: " + e.getMessage());
+            return null;
+        }
+    }
+
+    // Método auxiliar para extrair valores do JSON manualmente
+    private String extrairValor(String json, String chaveInicio, String chaveFim) {
+        int inicio = json.indexOf(chaveInicio);
+        if (inicio == -1) return "";
+        inicio += chaveInicio.length();
+        int fim = json.indexOf(chaveFim, inicio);
+        if (fim == -1) return "";
+        return json.substring(inicio, fim);
+    }
+
 }

@@ -56,23 +56,40 @@ public class Main {
         switch (op) {
             case 1:
             System.out.println("Qual tipo de veiculo pretende cadastrar?");
-            System.out.println("1-Carros");
-            System.out.println("2-Motos");
-            System.out.println("3-Caminhões");
-            typeV = scanner.nextInt();  // Lendo a entrada para tipo de veículo
+                System.out.println("1-Carros");
+                System.out.println("2-Motos");
+                System.out.println("3-Caminhões");
+                typeV = scanner.nextInt();
 
-            if (typeV == 1) {
-                tipoVeiculo = "cars";
-            } else if (typeV == 2) {
-                tipoVeiculo = "motorcycles";
-            } else if (typeV == 3) {
-                tipoVeiculo = "trucks";
-            } else {
-                System.out.println("Tipo de veiculo inválido!");
-                System.out.println("Voltando ao menu");
-                return;
-            }
+                if (typeV == 1) {
+                    tipoVeiculo = "cars";
+                } else if (typeV == 2) {
+                    tipoVeiculo = "motorcycles";
+                } else if (typeV == 3) {
+                    tipoVeiculo = "trucks";
+                } else {
+                    System.out.println("Tipo de veiculo inválido!");
+                    System.out.println("Voltando ao menu");
+                    return;
+                }
 
+                System.out.println("Digite o ID da marca:");
+                IdMarca = scanner.nextInt();
+                
+                System.out.println("Digite o ID do modelo:");
+                int IdModelo = scanner.nextInt();
+                
+                System.out.println("Digite o ano e combustível (ex: 2014-1 para gasolina):");
+                AnoECombs = scanner.next();
+                
+                Veiculo novoVeiculo = fipe.adicionarVeiculo(tipoVeiculo, IdMarca, IdModelo, AnoECombs);
+                
+                if (novoVeiculo != null) {
+                    listaVeiculos.add(novoVeiculo);
+                    System.out.println("Veículo cadastrado com sucesso!");
+                } else {
+                    System.out.println("Erro ao cadastrar veículo.");
+                }
                 break;
             case 2:
                 // Lógica para remover carro
