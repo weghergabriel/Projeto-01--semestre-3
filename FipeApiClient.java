@@ -1,9 +1,11 @@
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 public class FipeApiClient {
+    ArrayList <Veiculo> listaVeiculos = new ArrayList<>();
 
     // Função para mostrar as marcas de um tipo de veículo
     public void MostrarMarcas(String tipoVeiculo) {
@@ -132,6 +134,31 @@ public class FipeApiClient {
             System.out.println(" Combustível: " + combustivel + " (" + acronCombustivel + ")");
             System.out.println(" Mês de Referência: " + mesReferencia);
             System.out.println("\n");
+
+            Veiculo veiculo;
+            if (tipoVeiculo.equals("cars")) {
+                veiculo = new Carro(1, preco, marca, modelo, Integer.parseInt(ano), combustivel, codigoFipe, mesReferencia, acronCombustivel);
+            } else if (tipoVeiculo.equals("motorcycles")) {
+                veiculo = new Moto(2, preco, marca, modelo, Integer.parseInt(ano), combustivel, codigoFipe, mesReferencia, acronCombustivel);
+            } else {
+                veiculo = new Caminhao(3, preco, marca, modelo, Integer.parseInt(ano), combustivel, codigoFipe, mesReferencia, acronCombustivel);
+            }
+
+            // Adiciona o veículo à lista
+            listaVeiculos.add(veiculo);
+
+            for (Veiculo v : listaVeiculos) {
+                System.out.println("Tipo: " + (v.getTipoVeiculo() == 1 ? "Carro" : v.getTipoVeiculo() == 2 ? "Moto" : "Caminhão"));
+                System.out.println("Marca: " + v.getMarca());
+                System.out.println("Modelo: " + v.getModelo());
+                System.out.println("Ano: " + v.getAno());
+                System.out.println("Preço: " + v.getPreco());
+                System.out.println("Combustível: " + v.getCombustivel());
+                System.out.println("Código Fipe: " + v.getCodigoFipe());
+                System.out.println("Mês de Referência: " + v.getMesReferencia());
+                System.out.println("Acrônimo Combustível: " + v.getAcronCombustivel());
+                System.out.println("--------------------------------------------------------");
+            }
     
         } catch (Exception e) {
             System.out.println(" Erro ao buscar detalhes do veículo: " + e.getMessage());

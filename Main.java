@@ -6,7 +6,6 @@ public class Main {
     public static void main(String[] args) {
         FipeApiClient fipe = new FipeApiClient();
         Scanner scanner = new Scanner(System.in);  // scanner no escopo da main
-        ArrayList <Veiculo> listaVeiculos = new ArrayList<>();
         int op;
 
         do {
@@ -22,10 +21,10 @@ public class Main {
                     // Lógica para Vendas
                     break;
                 case 2:
-                    // Lógica para Carros cadastrados
+                    // Lógica para Veiculos cadastrados
                     break;
                 case 3:
-                    Cadastro_de_veiculos(scanner, fipe, listaVeiculos); // Passar o scanner e o objeto fipe para o método
+                    Cadastro_de_veiculos(scanner, fipe); // Passar o scanner e o objeto fipe para o método
                     break;
                 case 4:
                     System.out.println("Saindo...");
@@ -39,7 +38,7 @@ public class Main {
         scanner.close(); // Fechar o scanner no final da execução
     }
 
-    public static void Cadastro_de_veiculos(Scanner scanner, FipeApiClient fipe, ArrayList<Veiculo> listaVeiculos) {
+    public static void Cadastro_de_veiculos(Scanner scanner, FipeApiClient fipe) {
         int typeV, IdMarca;
         String Ano;
         String AnoECombs;

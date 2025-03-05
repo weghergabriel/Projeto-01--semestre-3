@@ -38,4 +38,49 @@ public class Carro extends Veiculo {
     public void setAcronCombustivel(String acronCombustivel){
         this.acronCombustivel = acronCombustivel;
     }
+
+    @Override
+    protected int getTipoVeiculo() {
+        return veiculoTipo;
+    }
+
+    @Override
+    protected String getMarca() {
+        return marcaVeiculo;
+    }
+
+    @Override
+    protected String getModelo() {
+        return modelo;
+    }
+
+    @Override
+    protected int getAno() {
+        return anoModelo;
+    }
+
+    @Override
+    protected String getPreco() {
+        return preco;
+    }
+
+    @Override
+    protected String getCombustivel() {
+        return combustivel;
+    }
+
+    @Override
+    protected String getCodigoFipe() {
+        return codigoFipe;
+    }
+
+    @Override
+    protected String getMesReferencia() {
+        return mesReferencia;
+    }
+
+    @Override
+    protected String getAcronCombustivel() {
+        return acronCombustivel;
+    }
 }

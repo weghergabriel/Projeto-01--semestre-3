@@ -57,4 +57,22 @@ public abstract class Veiculo {
         this.acronCombustivel = acronCombustivel;
     }
 
+    protected abstract int getTipoVeiculo();
+
+    protected abstract String getMarca();
+
+    protected abstract String getModelo();
+
+    protected abstract int getAno();
+
+    protected abstract String getPreco();
+
+    protected abstract String getCombustivel();
+
+    protected abstract String getCodigoFipe();
+
+    protected abstract String getMesReferencia();
+
+    protected abstract String getAcronCombustivel();
+
 }
