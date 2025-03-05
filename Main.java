@@ -25,7 +25,7 @@ public class Main {
                     // Lógica para Carros cadastrados
                     break;
                 case 3:
-                    Cadastro_de_veiculos(scanner, fipe); // Passar o scanner e o objeto fipe para o método
+                    Cadastro_de_veiculos(scanner, fipe, listaVeiculos); // Passar o scanner e o objeto fipe para o método
                     break;
                 case 4:
                     System.out.println("Saindo...");
@@ -39,7 +39,7 @@ public class Main {
         scanner.close(); // Fechar o scanner no final da execução
     }
 
-    public static void Cadastro_de_veiculos(Scanner scanner, FipeApiClient fipe) {
+    public static void Cadastro_de_veiculos(Scanner scanner, FipeApiClient fipe, ArrayList<Veiculo> listaVeiculos) {
         int typeV, IdMarca;
         String Ano;
         String AnoECombs;
@@ -56,40 +56,35 @@ public class Main {
         switch (op) {
             case 1:
             System.out.println("Qual tipo de veiculo pretende cadastrar?");
-                System.out.println("1-Carros");
-                System.out.println("2-Motos");
-                System.out.println("3-Caminhões");
-                typeV = scanner.nextInt();
+            System.out.println("1-Carros");
+            System.out.println("2-Motos");
+            System.out.println("3-Caminhões");
+            typeV = scanner.nextInt();  // Lendo a entrada para tipo de veículo
 
-                if (typeV == 1) {
-                    tipoVeiculo = "cars";
-                } else if (typeV == 2) {
-                    tipoVeiculo = "motorcycles";
-                } else if (typeV == 3) {
-                    tipoVeiculo = "trucks";
-                } else {
-                    System.out.println("Tipo de veiculo inválido!");
-                    System.out.println("Voltando ao menu");
-                    return;
-                }
+            if (typeV == 1) {
+                tipoVeiculo = "cars";
+            } else if (typeV == 2) {
+                tipoVeiculo = "motorcycles";
+            } else if (typeV == 3) {
+                tipoVeiculo = "trucks";
+            } else {
+                System.out.println("Tipo de veiculo inválido!");
+                System.out.println("Voltando ao menu");
+                return;
+            }
 
-                System.out.println("Digite o ID da marca:");
+            System.out.println("Digite o Id da marca desejada:");
                 IdMarca = scanner.nextInt();
-                
-                System.out.println("Digite o ID do modelo:");
+                scanner.nextLine();
+                System.out.println("Digite o código do modelo desejado:");
                 int IdModelo = scanner.nextInt();
-                
-                System.out.println("Digite o ano e combustível (ex: 2014-1 para gasolina):");
-                AnoECombs = scanner.next();
-                
-                Veiculo novoVeiculo = fipe.adicionarVeiculo(tipoVeiculo, IdMarca, IdModelo, AnoECombs);
-                
-                if (novoVeiculo != null) {
-                    listaVeiculos.add(novoVeiculo);
-                    System.out.println("Veículo cadastrado com sucesso!");
-                } else {
-                    System.out.println("Erro ao cadastrar veículo.");
-                }
+                scanner.nextLine();
+                System.out.println("Digite o ano desejado e logo após o tipo de combustivel");
+                System.out.println("Ex:'-1'Para gasolina/'-2'Para alcool/'-3'Para diesel");
+                AnoECombs = scanner.nextLine();
+
+                fipe.DetalhesVeiculo(tipoVeiculo, IdMarca, IdModelo, AnoECombs);
+
                 break;
             case 2:
                 // Lógica para remover carro

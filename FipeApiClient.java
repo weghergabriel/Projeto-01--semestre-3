@@ -84,67 +84,89 @@ public class FipeApiClient {
         }
     }
 
-    // Método para fazer requisições HTTP
-    public static String fazerRequisicao(String urlString) throws Exception {
-        URL url = new URL(urlString);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Accept", "application/json");
-
-        int status = conn.getResponseCode();  // Verifica o código de status HTTP
-
-        if (status != 200) {
-            // Caso a requisição não tenha sido bem-sucedida
-            throw new Exception("Falha na requisição. Código de status HTTP: " + status);
-        }
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String linha;
-        StringBuilder resposta = new StringBuilder();
-        while ((linha = reader.readLine()) != null) {
-            resposta.append(linha);
-        }
-        reader.close();
-        return resposta.toString();
-    }
-
-    // Método para adicionar um veículo ao catálogo
-    public Veiculo adicionarVeiculo(String tipoVeiculo, int idMarca, int idModelo, String anoModelo) {
+    public void DetalhesVeiculo(String tipoVeiculo, int IdMarca, int IdModelo, String AnoECombs) {
         try {
-            String urlVeiculo = "https://parallelum.com.br/api/v2/" + tipoVeiculo + "/brands/" + idMarca + "/models/" + idModelo + "/years/" + anoModelo;
-            System.out.println("Buscando veículo na FIPE: " + urlVeiculo);
-
-            String respostaJson = fazerRequisicao(urlVeiculo);
-
-            // Extraindo os dados manualmente
-            String preco = extrairValor(respostaJson, "\"Valor\":\"", "\"");
-            String marca = extrairValor(respostaJson, "\"Marca\":\"", "\"");
-            String modelo = extrairValor(respostaJson, "\"Modelo\":\"", "\"");
-            int ano = Integer.parseInt(extrairValor(respostaJson, "\"AnoModelo\":", ","));
-            String combustivel = extrairValor(respostaJson, "\"Combustivel\":\"", "\"");
-            String codigoFipe = extrairValor(respostaJson, "\"CodigoFipe\":\"", "\"");
-            String mesReferencia = extrairValor(respostaJson, "\"MesReferencia\":\"", "\"");
-            String acronCombustivel = extrairValor(respostaJson, "\"SiglaCombustivel\":\"", "\"");
-
-            // Criando o objeto Veiculo
-            Veiculo novoVeiculo = new Carro(1, preco, marca, modelo, ano, combustivel, codigoFipe, mesReferencia, acronCombustivel);
-            System.out.println("Veículo adicionado: " + modelo + " - " + ano);
-
-            return novoVeiculo; // Retorna o veículo para ser adicionado à lista
+            String urlDetalhes = "https://parallelum.com.br/api/v2/" + tipoVeiculo + "/brands/" + IdMarca + "/models/" + IdModelo + "/years/" + AnoECombs;
+            System.out.println("\n Acessando URL: " + urlDetalhes);
+    
+            String resposta = fazerRequisicao(urlDetalhes);
+    
+            // Removendo as chaves externas da resposta JSON
+            resposta = resposta.replace("{", "").replace("}", "").replace("\"", "");
+    
+            // Separando os atributos usando vírgula como delimitador
+            String[] atributos = resposta.split(",");
+    
+            // Variáveis para armazenar os valores extraídos
+            String marca = "", modelo = "", ano = "", codigoFipe = "", preco = "";
+            String combustivel = "", acronCombustivel = "", mesReferencia = "";
+    
+            // Extraindo cada informação
+            for (String atributo : atributos) {
+                if (atributo.startsWith("brand:")) {
+                    marca = atributo.split(":")[1];
+                } else if (atributo.startsWith("model:")) {
+                    modelo = atributo.split(":")[1];
+                } else if (atributo.startsWith("modelYear:")) {
+                    ano = atributo.split(":")[1];
+                } else if (atributo.startsWith("codeFipe:")) {
+                    codigoFipe = atributo.split(":")[1];
+                } else if (atributo.startsWith("price:")) {
+                    preco = atributo.split(":")[1];
+                } else if (atributo.startsWith("fuel:")) {
+                    combustivel = atributo.split(":")[1];
+                } else if (atributo.startsWith("fuelAcronym:")) {
+                    acronCombustivel = atributo.split(":")[1];
+                } else if (atributo.startsWith("referenceMonth:")) {
+                    mesReferencia = atributo.split(":")[1];
+                }
+            }
+    
+            // Exibir os detalhes formatados
+            System.out.println("\n**Detalhes do Veículo:**\n");
+            System.out.println(" Marca: " + marca);
+            System.out.println(" Modelo: " + modelo);
+            System.out.println(" Ano: " + ano);
+            System.out.println(" Código FIPE: " + codigoFipe);
+            System.out.println(" Preço: " + preco);
+            System.out.println(" Combustível: " + combustivel + " (" + acronCombustivel + ")");
+            System.out.println(" Mês de Referência: " + mesReferencia);
+            System.out.println("\n");
+    
         } catch (Exception e) {
-            System.out.println("Erro ao buscar veículo: " + e.getMessage());
+            System.out.println(" Erro ao buscar detalhes do veículo: " + e.getMessage());
+        }
+    }
+    
+    
+
+    // Método para fazer requisições HTTP
+    public String fazerRequisicao(String urlString) {
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
+            conexao.setRequestMethod("GET");
+    
+            int codigoResposta = conexao.getResponseCode();
+            if (codigoResposta != 200) {
+                System.out.println("Erro na requisição! Código: " + codigoResposta);
+                return null;
+            }
+    
+            BufferedReader leitor = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
+            StringBuilder resposta = new StringBuilder();
+            String linha;
+            
+            while ((linha = leitor.readLine()) != null) {
+                resposta.append(linha);
+            }
+            
+            leitor.close();
+            return resposta.toString();
+            
+        } catch (Exception e) {
+            System.out.println("Erro ao fazer requisição: " + e.getMessage());
             return null;
         }
     }
-
-    // Método auxiliar para extrair valores do JSON manualmente
-    private String extrairValor(String json, String chaveInicio, String chaveFim) {
-        int inicio = json.indexOf(chaveInicio);
-        if (inicio == -1) return "";
-        inicio += chaveInicio.length();
-        int fim = json.indexOf(chaveFim, inicio);
-        if (fim == -1) return "";
-        return json.substring(inicio, fim);
-    }
-
 }
