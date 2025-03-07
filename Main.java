@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.ArrayList;
 
 public class Main {
 
@@ -21,7 +20,16 @@ public class Main {
                     // Lógica para Vendas
                     break;
                 case 2:
-                    // Lógica para Veiculos cadastrados
+                    fipe.MostrarVeiculos();
+                    System.out.println("Deseja atualizar o preço de algum dos veiculos cadastrados?");
+                    System.out.println("1-Sim/2-Não");
+                    op = scanner.nextInt();
+                    scanner.nextLine();
+                    if(op == 1){
+                        fipe.AtualizarPreco();
+                    }else{
+                        return;
+                    }
                     break;
                 case 3:
                     Cadastro_de_veiculos(scanner, fipe); // Passar o scanner e o objeto fipe para o método
@@ -86,7 +94,7 @@ public class Main {
 
                 break;
             case 2:
-                // Lógica para remover carro
+                fipe.RemoverVeiculo();
                 break;
             case 3:
                 System.out.println("Qual tipo de veiculo pretende procurar?");

@@ -3,6 +3,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 public class FipeApiClient {
     ArrayList <Veiculo> listaVeiculos = new ArrayList<>();
@@ -147,6 +148,52 @@ public class FipeApiClient {
             // Adiciona o veículo à lista
             listaVeiculos.add(veiculo);
 
+            MostrarVeiculos();
+    
+        } catch (Exception e) {
+            System.out.println(" Erro ao buscar detalhes do veículo: " + e.getMessage());
+        }
+    }
+
+    public void AtualizarPreco(){
+        Scanner scanner = new Scanner(System.in);
+        int index;
+        System.out.println("Digite a posição na lista do veiculo que deseja atualizar o preço:");
+            index = scanner.nextInt();
+            scanner.nextLine();
+            if(index >= 0 && index<listaVeiculos.size()){
+                System.out.println("Digite o novo preço com as siglas:");
+                String novoPreco = scanner.nextLine();
+                listaVeiculos.get(index).setPreco(novoPreco);
+            }else{
+                System.out.println("Índice fora dos limites.");
+            }
+    }
+
+    public void RemoverVeiculo(){
+        Scanner scanner = new Scanner(System.in);
+        int index;
+        if(listaVeiculos.isEmpty()){
+            System.out.println("Não há nenhum veiculo adicionado para ser removido!");
+        }else{
+            System.out.println("Digite a posição na lista do veiculo que deseja deletar:");
+            index = scanner.nextInt();
+            scanner.nextLine();
+            if(index >= 0 && index<listaVeiculos.size()){
+                listaVeiculos.remove(index);
+                System.out.println("Veiculo deletado com sucesso!");
+                System.out.println("Mostrando lista de veiculos atualizada:");
+                MostrarVeiculos();
+            }else{
+                System.out.println("Índice fora dos limites.");
+            }
+        }
+    }
+    
+    public void MostrarVeiculos(){
+        if(listaVeiculos.isEmpty()){
+            System.out.println("Nenhum veiculo adicionado ainda!");
+        }else{
             for (Veiculo v : listaVeiculos) {
                 System.out.println("Tipo: " + (v.getTipoVeiculo() == 1 ? "Carro" : v.getTipoVeiculo() == 2 ? "Moto" : "Caminhão"));
                 System.out.println("Marca: " + v.getMarca());
@@ -159,13 +206,8 @@ public class FipeApiClient {
                 System.out.println("Acrônimo Combustível: " + v.getAcronCombustivel());
                 System.out.println("--------------------------------------------------------");
             }
-    
-        } catch (Exception e) {
-            System.out.println(" Erro ao buscar detalhes do veículo: " + e.getMessage());
         }
     }
-    
-    
 
     // Método para fazer requisições HTTP
     public String fazerRequisicao(String urlString) {
