@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
         FipeApiClient fipe = new FipeApiClient();
         Scanner scanner = new Scanner(System.in);  // scanner no escopo da main
-        int op;
+        int op, typeV;
 
         do {
             System.out.println("Escolha alguma das seguintes opcoes:");
@@ -17,7 +17,9 @@ public class Main {
 
             switch (op) {
                 case 1:
-                    // Lógica para Vendas
+                System.out.println("Qual veiculo pretende comprar?");
+                fipe.MostrarVeiculosVenda();
+                
                     break;
                 case 2:
                     fipe.MostrarVeiculos();

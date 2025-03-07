@@ -209,6 +209,83 @@ public class FipeApiClient {
         }
     }
 
+    //Função de Vendas
+    public void MostrarVeiculosVenda(){
+        Scanner scanner = new Scanner(System.in);
+        String metodoPagamento = null;
+        int index;
+        int posicao = 1;
+        if(listaVeiculos.isEmpty()){
+            System.out.println("Nenhum veiculo adicionado ainda!");
+        }else{
+            for (Veiculo v : listaVeiculos) {
+                System.out.println(posicao + " - " +
+                (v.getTipoVeiculo() == 1 ? "Carro" : v.getTipoVeiculo() == 2 ? "Moto" : "Caminhão") + " " +v.getMarca() + " " +v.getModelo() + " - " +v.getCombustivel() + " - " +v.getAno() + " | " +v.getPreco() + " - " +v.getCodigoFipe()+" |");
+                System.out.println("--------------------------------------------------------");
+                posicao++;
+            }
+
+            System.out.println("Digite o numero de posição do veículo que deseja comprar:");
+            index = scanner.nextInt();
+            scanner.nextLine();
+            index = index - 1;
+            if(index >= 0 && index<listaVeiculos.size()){
+                Veiculo veiculoSelecionado = listaVeiculos.get(index);
+                System.out.println("\nVocê selecionou o seguinte veículo:");
+                System.out.println("Tipo: " + (veiculoSelecionado.getTipoVeiculo() == 1 ? "Carro" : veiculoSelecionado.getTipoVeiculo() == 2 ? "Moto" : "Caminhão"));
+                System.out.println("Marca: " + veiculoSelecionado.getMarca());
+                System.out.println("Modelo: " + veiculoSelecionado.getModelo());
+                System.out.println("Ano: " + veiculoSelecionado.getAno());
+                System.out.println("Preço: " + veiculoSelecionado.getPreco());
+                System.out.println("Combustível: " + veiculoSelecionado.getCombustivel());
+                System.out.println("Código Fipe: " + veiculoSelecionado.getCodigoFipe());
+
+                System.out.println("\nDeseja confirmar a compra? (1-Sim / 2-Nao)");
+                int confirmacao = scanner.nextInt();
+                scanner.nextLine();
+                if(confirmacao != 1){
+                    System.out.println("Compra cancelada, voltando ao menu...");
+                    return;
+                }
+
+                System.out.println("Selecione a forma de pagamento:");
+                System.out.println("1 - Cartão de Crédito");
+                System.out.println("2 - Cartão de Débito");
+                System.out.println("3 - Pix");
+                System.out.println("4 - Dinheiro");
+                int formaPagamento = scanner.nextInt();
+                scanner.nextLine();
+                switch(formaPagamento){
+                    case 1 :
+                        metodoPagamento = "Cartão de Crédito";
+                        break;
+                    case 2 :
+                        metodoPagamento = "Cartão de Débito";
+                        break;
+                    case 3 :
+                        metodoPagamento = "Pix";
+                        break;
+                    case 4 :
+                        metodoPagamento = "Dinheiro";
+                        break;        
+                    default:
+                        System.out.println("Forma de Pagamento invalida");
+                        break;
+                }
+
+                System.out.println("\nCompra realizada com sucesso!");
+                System.out.println("Forma de pagamento escolhida: " + metodoPagamento);
+                System.out.println("Obrigado por comprar conosco!\n");
+                return;
+
+            }else{
+                System.out.println("Numero invalido retornando ao menu...");
+                return;
+
+            }
+        }
+    }
+
     // Método para fazer requisições HTTP
     public String fazerRequisicao(String urlString) {
         try {
