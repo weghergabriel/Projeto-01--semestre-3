@@ -86,7 +86,7 @@ public class FipeApiClient {
             System.out.println("Erro ao buscar modelos: " + e.getMessage());
         }
     }
-
+    //Criação de Veículo
     public void DetalhesVeiculo(String tipoVeiculo, int IdMarca, int IdModelo, String AnoECombs) {
         try {
             String urlDetalhes = "https://parallelum.com.br/api/v2/" + tipoVeiculo + "/brands/" + IdMarca + "/models/" + IdModelo + "/years/" + AnoECombs;
@@ -154,7 +154,7 @@ public class FipeApiClient {
             System.out.println(" Erro ao buscar detalhes do veículo: " + e.getMessage());
         }
     }
-
+    //Atualizar Preco dos Veiculos cadastrados
     public void AtualizarPreco(){
         Scanner scanner = new Scanner(System.in);
         int index;
@@ -169,7 +169,7 @@ public class FipeApiClient {
                 System.out.println("Índice fora dos limites.");
             }
     }
-
+    //Remover Veiculos cadastrados
     public void RemoverVeiculo(){
         Scanner scanner = new Scanner(System.in);
         int index;
@@ -189,7 +189,7 @@ public class FipeApiClient {
             }
         }
     }
-    
+    //Mostrar Veículos cadastrados
     public void MostrarVeiculos(){
         if(listaVeiculos.isEmpty()){
             System.out.println("Nenhum veiculo adicionado ainda!");
