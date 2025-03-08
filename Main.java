@@ -29,8 +29,6 @@ public class Main {
                     scanner.nextLine();
                     if(op == 1){
                         fipe.AtualizarPreco();
-                    }else{
-                        return;
                     }
                     break;
                 case 3:
